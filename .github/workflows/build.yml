@@ -24,6 +24,13 @@ jobs:
         submodules: 'recursive'
         fetch-depth: '0'
 
+    - name: Ensure submodules are present
+      run: |
+        # The repo was uploaded without its submodule links, so the two folders arrive empty.
+        [ -f hev-socks5-tunnel/jni/Android.mk ] || [ -f hev-socks5-tunnel/Android.mk ] || { rm -rf hev-socks5-tunnel; git clone --recursive https://github.com/heiher/hev-socks5-tunnel hev-socks5-tunnel; }
+        [ -f AndroidLibXrayLite/go.mod ] || { rm -rf AndroidLibXrayLite; git clone https://github.com/2dust/AndroidLibXrayLite AndroidLibXrayLite; }
+        ls hev-socks5-tunnel/third-part
+
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
       with:
